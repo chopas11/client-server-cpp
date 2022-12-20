@@ -13,7 +13,7 @@
 
 #define ADDRESS "0.0.0.0"         // server address
 #define PORT 5002                 // port number
-#define CONCURRENT_CONNECTION 2   // maximum concurrent connections
+#define CONCURRENT_CONNECTION 3   // maximum concurrent connections
 #define QUEUE_CONNECTION 20       // maximum connection requests queued
 #define BUFFER_SIZE 1024          // buffer size 1KB
 #define THREAD_STACK_SIZE 65536   // Thread stack size 64KB
@@ -153,7 +153,7 @@ void *connection_handler(void *sock_fd)
     }
     else if (strcmp(buffer, "4") == 0)
     {
-      sprintf(response, "%s", "Four");
+      sprintf(response, "%d", connection);
     }
     else
       sprintf(response, "%s", "Enter a number in the range from 3 to 4");
