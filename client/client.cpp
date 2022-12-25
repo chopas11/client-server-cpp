@@ -12,8 +12,10 @@
 #include <netdb.h>
 
 // Constants
-#define SERVER1_PORT 5001;
-#define SERVER2_PORT 5002;
+#define SERVER1_PORT 5001
+#define SERVER2_PORT 5002
+#define SERVRR1_ADDRESS 0xac150003
+#define SERVRR2_ADDRESS 0xac150004
 
 void printMenu()
 {
@@ -42,7 +44,7 @@ int getVariant(int count)
   return variant;
 }
 
-void connect(int port, int variant)
+void connect(unsigned int address, int port, int variant)
 {
   int socket_desc;
   struct sockaddr_in client_addr;
@@ -50,8 +52,8 @@ void connect(int port, int variant)
 
   socket_desc = socket(AF_INET, SOCK_STREAM, 0);
   client_addr.sin_family = AF_INET;
-  client_addr.sin_addr.s_addr = INADDR_ANY;
-  // client_addr.sin_addr.s_addr = htonl(0xac150002);
+  // client_addr.sin_addr.s_addr = INADDR_ANY;
+  client_addr.sin_addr.s_addr = htonl(address);
   client_addr.sin_port = htons(port);
 
   if (connect(socket_desc, (struct sockaddr *)&client_addr, sizeof(client_addr)) == 0)
@@ -77,11 +79,11 @@ int main()
     variant = getVariant(5);
     if (variant == 1 || variant == 2)
     {
-      connect(5001, variant);
+      connect(SERVRR1_ADDRESS, SERVER1_PORT, variant);
     }
     else if (variant == 3 || variant == 4)
     {
-      connect(5002, variant);
+      connect(SERVRR2_ADDRESS, SERVER2_PORT, variant);
     }
   } while (variant != 5);
   return 0;

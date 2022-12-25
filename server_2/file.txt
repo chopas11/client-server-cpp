@@ -1,0 +1,7 @@
+  PID TTY          TIME CMD
+    1 pts/0    00:00:00 bash
+    9 pts/1    00:00:00 bash
+   19 ?        00:00:00 rsyslogd
+   44 pts/1    00:00:00 server_2
+   46 pts/1    00:00:00 sh
+   47 pts/1    00:00:00 ps

@@ -1,26 +1,51 @@
 version: '3'
 
 services:
-  # Service for NodeJS API
 
-  # Service for Postgres Database
+  syslog:
+    image: ubuntu
+    container_name: syslog
+#    volumes:
+#      - ./server_1:/server_1
+    ports:
+      - '5000:5000'
+    stdin_open: true
+    tty: true
+
+# Server1
   server1:
     build: ./server_1
     container_name: server_1
     volumes:
       - ./server_1:/server_1
-      # Postgres port 5432
     ports:
-      - '8888:8888'
+      - '5001:5001'
     stdin_open: true
     tty: true
+    depends_on:
+      - syslog
+  server2:
+    build: ./server_2
+    container_name: server_2
+    volumes:
+      - ./server_2:/server_2
+    ports:
+      - '5002:5002'
+    stdin_open: true
+    tty: true
+    depends_on:
+      - server1
+      - syslog
   client:
     build: ./client
     container_name: client
     volumes:
       - ./client:/client
-      # Postgres port 5432
     ports:
       - '8000:8000'
     stdin_open: true
     tty: true
+    depends_on:
+      - server1
+      - server2
+      - syslog
